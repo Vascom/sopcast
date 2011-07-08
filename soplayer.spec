@@ -4,7 +4,7 @@ Release:        1%{?dist}.R
 Summary:        Useful player to view sopcast broadcasts
 
 License:        GPLv2
-URL:            
+URL:            https://github.com/Vascom/soplayer
 Source0:        soplayer
 
 
