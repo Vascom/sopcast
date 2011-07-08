@@ -1,0 +1,57 @@
+#!/bin/sh 
+# Start streaming sopcast address $1 with sp-sc-auth, then start MPlayer and monitor both processes.
+# Author: Chickamade <anh.chick@gmail.com>
+# pashazz <pzinin@gmail.com> - MPlayer porting
+
+if ! test $# -eq 1
+then
+    echo 'Usage: sopcast <sop://address>'
+    exit 0
+fi
+
+if pgrep -f "sp-sc-auth $1"
+then
+    echo sopcast: channel $1 already streaming, quitting >&2
+    exit 0
+fi
+
+PORT=${1##*/}
+
+echo sopcast: starting stream $1 on port $PORT >&2
+sp-sc-auth "$1" 3908 $PORT >/dev/null &
+SP_SC=`pgrep -f "sp-sc-auth $1 3908 $PORT"`
+if test -z $SP_SC
+then
+    echo sopcast: stream $1 failed to start >&2
+    exit 1
+fi
+
+sleep 20
+
+mplayer http://localhost:$PORT>/dev/null 2>&1 &
+MPLAYER=`pgrep -f "mplayer http://localhost:$PORT"`
+if test -z $MPLAYER
+then
+    echo sopcast: MPlayer failed to start >&2
+    kill -9 $SP_SC
+    exit 1
+fi
+
+while true
+do
+    if ! ps $SP_SC > /dev/null
+    then
+        echo sopcast: stream $1 died, killing MPlayer >&2
+        kill $MPLAYER
+        exit 1
+    fi
+    if ! ps $MPLAYER > /dev/null
+    then
+        echo sopcast: MPlayer not running, killing stream $1 >&2
+        kill -9 $SP_SC
+        exit 0
+    fi
+    sleep 10
+done
+exit 0
+
