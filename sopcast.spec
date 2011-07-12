@@ -11,8 +11,7 @@ Source1:        sopcast
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 
-Requires:       mplayer
-Requires:       libstdc++.so.5      
+Requires:       mplayer      
 
 
 %description
