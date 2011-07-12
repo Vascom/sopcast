@@ -6,7 +6,7 @@
 
 if ! test $# -eq 1
 then
-    echo 'Usage: soplayer <sop://address>'
+    echo 'Usage: sopcast <sop://address>'
     exit 0
 fi
 
