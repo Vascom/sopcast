@@ -2,10 +2,11 @@
 # Start streaming sopcast address $1 with sp-sc-auth, then start MPlayer and monitor both processes.
 # Author: Chickamade <anh.chick@gmail.com>
 # pashazz <pzinin@gmail.com> - MPlayer porting
+# Vascom <vascom2@gmail.com> - adapting for Fedora
 
 if ! test $# -eq 1
 then
-    echo 'Usage: sopcast <sop://address>'
+    echo 'Usage: soplayer <sop://address>'
     exit 0
 fi
 
@@ -26,6 +27,7 @@ then
     exit 1
 fi
 
+echo "waiting 20 seconds for stream buffering"
 sleep 20
 
 mplayer http://localhost:$PORT>/dev/null 2>&1 &
