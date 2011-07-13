@@ -3,7 +3,7 @@ Version:        3.2.6
 Release:        3%{?dist}.R
 Summary:        A P2P Stream program
 
-License:        Unknown
+License:        Redistributable
 URL:            http://www.sopcast.org
 Group:          Applications/Internet
 Source0:        http://download.easetuner.com/download/sp-auth.tgz
@@ -19,12 +19,11 @@ A P2P Stream program and playing script
 
 
 %prep
-rm -rf $RPM_BUILD_ROOT
 %setup -q -n sp-auth
 
 
 %build
-echo "Nothing to build"
+rm -rf $RPM_BUILD_ROOT
 
 
 %install
